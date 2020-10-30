@@ -1,43 +1,10 @@
 <template>
   <div>
-    <b-navbar type="dark" variant="dark" >
-      <b-navbar>
-        <b-nav-item @click="mostrarFilmes = true">Home</b-nav-item>
-        <b-nav-item @click="mostrarFilmes = false">Carrinho</b-nav-item>
-      </b-navbar>
-    </b-navbar>
     <b-container>
       <b-row> 
         <h1> Bem vindo a {{ title }}</h1>
       </b-row>
       <b-row>
-        <h3 v-if="horas >= 9 && horas < 17" id="aberta">Estamos abertos</h3>
-        <h3 v-else-if="horas >= 17 && horas < 18" id="quase-fechando">Estamos quase fechando</h3>
-        <h3 v-else id="fechada">Estamos fechados</h3>
-      </b-row>
-      <b-row>
-        <p> Carrinho: {{ quantidadeNoCarrinho }} filmes </p>
-      </b-row>
-      <b-row>
-         <div class="cards">
-          <b-card :key="filme.id" v-for="filme in filmes"
-            :title="filme.titulo"
-            :img-src="filme.imagem"
-            img-top
-            tag="article"
-            style="max-width: 13rem;"
-            class="mb-3 text-center"
-            >
-            <b-card-text>
-              {{ filme.descricao }}
-            </b-card-text>
-            <b-button v-if="filme.estoqueDisponivel > 0" href="#" @click="adicionarAoCarrinho(filme)" block variant="dark">Alugar por R$ {{ filme.valor }},00</b-button>
-            <b-button v-else-if="filme.estoqueDisponivel == 1" href="#" block variant="warning">Última Unidade</b-button>
-            <b-button v-else href="#" block variant="danger">Esgotado</b-button>
-          </b-card>
-        </div>
-      </b-row>
-      <b-row v-show="!mostrarFilmes">
         <b-row class="table">
           <h2>Resumo do pedido</h2>
           <b-table block striped hover dark responsive head-variant="light" :items="carrinho" :fields="fields"></b-table>
@@ -52,7 +19,7 @@
             class="form-control"
             id="primeiroNome"
             placeholder="Digite o primeiro nome aqui"
-            v-model.trim="pedido.primeiroNome">
+            v-model="pedido.primeiroNome">
         </div>
         <div class="form-group">
             <label for="pedido.sobrenome">Sobrenome</label>
@@ -61,7 +28,7 @@
             class="form-control"
             id="primeiroNome"
             placeholder="Digite o sobrenome nome aqui"
-            v-model.trim="pedido.sobrenome">
+            v-model="pedido.sobrenome">
         </div>
         <div class="form-group">
             <label for="pedido.endereco">Endereço</label>
@@ -70,7 +37,7 @@
             class="form-control"
             id="primeiroNome"
             placeholder="Digite o endereço aqui"
-            v-model.trim="pedido.endereco">
+            v-model="pedido.endereco">
         </div>
         <div class="form-group">
             <label for="pedido.sobrenome">CEP</label>
@@ -79,7 +46,7 @@
             class="form-control"
             id="primeiroNome"
             placeholder="Digite o CEP aqui"
-            v-model.number="pedido.cep">
+            v-model="pedido.cep">
         </div>
         <div class="form-group">
             <label for="estado">Estado</label>
@@ -95,7 +62,7 @@
           class="form-control"
           id="primeiroNome"
           placeholder="Digite a cidade aqui"
-          v-model.trim="pedido.cidade">
+          v-model="pedido.cidade">
         </div>
         <div class="form-group form-check">
             <input
@@ -145,11 +112,11 @@
         Pagar na entrega? {{pedido.pagarNaEntrega}}
         Entrega: {{pedido.entrega}}
       </pre>
-
+      
       <div class="form-group">
         <button type="submit" class="btn btn-primary" v-on:click="submitFormulario">Finalizar pedido</button>
       </div>
-
+  
     </b-container>
   </div>
 </template>
@@ -165,19 +132,8 @@
     }*/
     data() {
       return {
-        title: "Locadora de Filmes",
-        horas: new Date().getHours(),
-        filmes : [
-          { id: 1, titulo: "Hulk", descricao: "Filme Ruim", valor: 2, imagem: "https://i.imgur.com/0uthCmp.jpg", estoqueDisponivel: 3 },
-          { id: 2, titulo: "Homem de Ferro", descricao: "Homem de Ferro", valor: 10, imagem: "https://i.imgur.com/OA8pDFM.jpg", estoqueDisponivel: 2 },
-          { id: 3, titulo: "Thor", descricao: "Bonito ", valor: 20, imagem: "https://i.imgur.com/mt4ZRzw.jpg", estoqueDisponivel: 4 },
-          { id: 4, titulo: "Capitão América", descricao: "Um filme de capitão", valor: 40, imagem: "https://i.imgur.com/UFmSVtZ.jpg", estoqueDisponivel: 1 },
-          { id: 5, titulo: "Doutor Estranho", descricao: "Magia", valor: 10, imagem: "https://i.imgur.com/pVEDruM.jpg", estoqueDisponivel: 5 },
-          { id: 6, titulo: "Pantera Negra", descricao: "Um segundo filme de força", valor: 10, imagem: "https://i.imgur.com/JOSEGKf.jpg", estoqueDisponivel: 2 }
-        ],
-        carrinho: [],
+        title: "Resumo do pedido",
         totalCompra: 0,
-        mostrarFilmes: true,
         fields: ['titulo', 'preço', 'quantidade'],
         pedido:{
           primeiroNome: '',
@@ -200,32 +156,10 @@
       };
     },
     methods: {
-      adicionarAoCarrinho: function(filme) {
-        if(filme.estoqueDisponivel > 0){
-          this.carrinho.push(filme.id);
-          this.totalCompra += filme.valor;
-          filme.estoqueDisponivel -= 1;
-        }
-      },
-      quantidadeNoCarrinhoPorFilme: function(filme){
-        var quantidade = 0;
-        for(var i = 0; i < this.carrinho.length; i++){
-          if(filme.id == this.carrinho[i]) quantidade++;
-        }
-        return quantidade;
-      },
-      mostrarCarrinho: function(){
-        this.mostrarFilmes = this.mostrarFilmes ? false : true;
-      },
       submitFormulario(){
         alert('Pedido enviado');
       }
     },
-    computed: {
-      quantidadeNoCarrinho: function() {
-        return this.carrinho.length;
-      },
-    }
 
   }
 </script>
@@ -239,28 +173,6 @@
 
   .row{
     justify-content: center;
-  }
-
-  #aberta{
-    color: blue;
-  }
-
-  #quase-fechando{
-    color: orange;
-  }
-
-  #fechada{
-    color: red;
-  }
-
-  .cards{
-    display: flex;
-    flex-wrap: inherit;
-    justify-content: space-around;
-  }
-
-  .card:hover{
-    transform: scale(1.05);
   }
 
   p{

@@ -18,7 +18,7 @@
       <b-row>
         <p> Carrinho: {{ quantidadeNoCarrinho }} filmes </p>
       </b-row>
-      <b-row>
+      <b-row v-show="mostrarFilmes">
          <div class="cards">
           <b-card :key="filme.id" v-for="filme in filmes"
             :title="filme.titulo"
@@ -31,124 +31,23 @@
             <b-card-text>
               {{ filme.descricao }}
             </b-card-text>
-            <b-button v-if="filme.estoqueDisponivel > 0" href="#" @click="adicionarAoCarrinho(filme)" block variant="dark">Alugar por R$ {{ filme.valor }},00</b-button>
+
+            <b-card-text>
+              {{ filme.avaliacao }}
+              <b-icon icon="star-fill" variant="warning" v-for="estrelas in filme.avaliacao" :key="estrelas"></b-icon>
+              <b-icon icon="star" variant="warning" v-for="estrelas_vazadas in 5 - filme.avaliacao" :key="estrelas_vazadas"></b-icon>
+            </b-card-text>
+
+            <b-button v-if="filme.estoqueDisponivel > 1" href="#" @click="adicionarAoCarrinho(filme)" block variant="dark">Alugar por R$ {{ filme.valor }},00</b-button>
             <b-button v-else-if="filme.estoqueDisponivel == 1" href="#" block variant="warning">Última Unidade</b-button>
             <b-button v-else href="#" block variant="danger">Esgotado</b-button>
+            
           </b-card>
         </div>
       </b-row>
       <b-row v-show="!mostrarFilmes">
-        <b-row class="table">
-          <h2>Resumo do pedido</h2>
-          <b-table block striped hover dark responsive head-variant="light" :items="carrinho" :fields="fields"></b-table>
-          <b-row>Total da compra: R${{ totalCompra }},00</b-row>
-        </b-row>
+        <carrinho :carrinho=carrinho :totalCompra=totalCompra />
       </b-row>
-      <form>
-        <div class="form-group">
-            <label for="pedido.primeiroNome">Primeiro Nome</label>
-            <input 
-            type="text"
-            class="form-control"
-            id="primeiroNome"
-            placeholder="Digite o primeiro nome aqui"
-            v-model.trim="pedido.primeiroNome">
-        </div>
-        <div class="form-group">
-            <label for="pedido.sobrenome">Sobrenome</label>
-            <input 
-            type="text"
-            class="form-control"
-            id="primeiroNome"
-            placeholder="Digite o sobrenome nome aqui"
-            v-model.trim="pedido.sobrenome">
-        </div>
-        <div class="form-group">
-            <label for="pedido.endereco">Endereço</label>
-            <input 
-            type="text"
-            class="form-control"
-            id="primeiroNome"
-            placeholder="Digite o endereço aqui"
-            v-model.trim="pedido.endereco">
-        </div>
-        <div class="form-group">
-            <label for="pedido.sobrenome">CEP</label>
-            <input 
-            type="number"
-            class="form-control"
-            id="primeiroNome"
-            placeholder="Digite o CEP aqui"
-            v-model.number="pedido.cep">
-        </div>
-        <div class="form-group">
-            <label for="estado">Estado</label>
-            <select class="form-control" id="estado" v-model="pedido.estado">
-              <option disabled value>Escolha um estado</option>
-              <option v-for="(estado, key) in estados" v-bind:value="estado" v-bind:key="key"> {{ key }} </option>
-            </select>
-        </div>
-        <div class="form-group">
-          <label for="pedido.cidade">Cidade</label>
-          <input 
-          type="text"
-          class="form-control"
-          id="primeiroNome"
-          placeholder="Digite a cidade aqui"
-          v-model.trim="pedido.cidade">
-        </div>
-        <div class="form-group form-check">
-            <input
-                type="checkbox"
-                class="form-check-input"
-                id="pagarNaEntrega"
-                v-bind:true-value="pedido.simNaEntrega"
-                v-bind:false-value="pedido.naoNaEntrega"
-                v-model="pedido.pagarNaEntrega">
-            <label class="form-check-label" for="pagarNaEntrega">Pagar na entrega?</label>
-        </div>
-        <div class="form-group form-check-inline">
-            <input
-                type="radio"
-                class="form-check-input"
-                id="manha"
-                value="Manha"
-                v-model="pedido.entrega">
-            <label class="form-check-label" for="manha">Manhã</label>
-        </div>
-        <div class="form-group form-check-inline">
-            <input
-                type="radio"
-                class="form-check-input"
-                id="tarde"
-                value="Tarde"
-                v-model="pedido.entrega">
-            <label class="form-check-label" for="tarde">Tarde</label>
-        </div>
-        <div class="form-group form-check-inline">
-            <input
-                type="radio"
-                class="form-check-input"
-                id="noite"
-                value="Noite"
-                v-model="pedido.entrega">
-            <label class="form-check-label" for="noite">Noite</label>
-        </div>
-      </form>
-      <pre>
-        Primeiro nome: {{pedido.primeiroNome}}
-        Sobrenome: {{pedido.sobrenome}}
-        Endereço: {{pedido.endereco}}
-        CEP: {{pedido.cep}}
-        Estado: {{pedido.estado}}
-        Cidade: {{pedido.cidade}}
-        Pagar na entrega? {{pedido.pagarNaEntrega}}
-        Entrega: {{pedido.entrega}}
-      </pre>
-
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary" v-on:click="submitFormulario">Finalizar pedido</button>
-      </div>
 
     </b-container>
   </div>
@@ -157,52 +56,41 @@
 <script>
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
+  import Carrinho from './components/Carrinho.vue'
 
   export default {
     name: 'App',
-    /*components: {
-      HelloWorld,
-    }*/
+    components: {
+      Carrinho,
+    },
     data() {
       return {
         title: "Locadora de Filmes",
         horas: new Date().getHours(),
         filmes : [
-          { id: 1, titulo: "Hulk", descricao: "Filme Ruim", valor: 2, imagem: "https://i.imgur.com/0uthCmp.jpg", estoqueDisponivel: 3 },
-          { id: 2, titulo: "Homem de Ferro", descricao: "Homem de Ferro", valor: 10, imagem: "https://i.imgur.com/OA8pDFM.jpg", estoqueDisponivel: 2 },
-          { id: 3, titulo: "Thor", descricao: "Bonito ", valor: 20, imagem: "https://i.imgur.com/mt4ZRzw.jpg", estoqueDisponivel: 4 },
-          { id: 4, titulo: "Capitão América", descricao: "Um filme de capitão", valor: 40, imagem: "https://i.imgur.com/UFmSVtZ.jpg", estoqueDisponivel: 1 },
-          { id: 5, titulo: "Doutor Estranho", descricao: "Magia", valor: 10, imagem: "https://i.imgur.com/pVEDruM.jpg", estoqueDisponivel: 5 },
-          { id: 6, titulo: "Pantera Negra", descricao: "Um segundo filme de força", valor: 10, imagem: "https://i.imgur.com/JOSEGKf.jpg", estoqueDisponivel: 2 }
+          { id: 1, titulo: "Hulk", descricao: "Filme Ruim", valor: 2, imagem: "https://i.imgur.com/0uthCmp.jpg", estoqueDisponivel: 3, avaliacao: 2 },
+          { id: 2, titulo: "Homem de Ferro", descricao: "Homem de Ferro", valor: 10, imagem: "https://i.imgur.com/OA8pDFM.jpg", estoqueDisponivel: 3, avaliacao: 4 },
+          { id: 3, titulo: "Thor", descricao: "Bonito ", valor: 20, imagem: "https://i.imgur.com/mt4ZRzw.jpg", estoqueDisponivel: 4, avaliacao: 3 },
+          { id: 4, titulo: "Capitão América", descricao: "Um filme de capitão", valor: 40, imagem: "https://i.imgur.com/UFmSVtZ.jpg", estoqueDisponivel: 2, avaliacao: 4 },
+          { id: 5, titulo: "Doutor Estranho", descricao: "Magia", valor: 10, imagem: "https://i.imgur.com/pVEDruM.jpg", estoqueDisponivel: 5, avaliacao: 3 },
+          { id: 6, titulo: "Pantera Negra", descricao: "Um segundo filme de força", valor: 10, imagem: "https://i.imgur.com/JOSEGKf.jpg", estoqueDisponivel: 2, avaliacao: 4 }
         ],
         carrinho: [],
         totalCompra: 0,
         mostrarFilmes: true,
-        fields: ['titulo', 'preço', 'quantidade'],
-        pedido:{
-          primeiroNome: '',
-          sobrenome: '',
-          endereco: '',
-          cep: '',
-          cidade: '',
-          estado: '',
-          pagarNaEntrega: 'Não',
-          simNaEntrega: 'Sim',
-          naoNaEntrega: 'Não',
-          entrega: 'Tarde'
-        },
-        estados: {
-          RJ: 'Rio de Janeiro',
-          MG: 'Minas Gerais',
-          SP: 'São Paulo',
-          ES: 'Espírito Santo'
-        }
       };
     },
     methods: {
       adicionarAoCarrinho: function(filme) {
         if(filme.estoqueDisponivel > 0){
-          this.carrinho.push(filme.id);
+          let indexFilme = this.carrinho.findIndex((obj) => obj.id == filme.id);
+          filme.quantidade = (filme.quantidade || 0) + 1;
+          if(indexFilme == -1){
+            filme.preco = `R${filme.valor},00`;
+            this.carrinho.push(filme);
+          }else{
+            this.carrinho.splice(indexFilme, 1, filme);
+          }
           this.totalCompra += filme.valor;
           filme.estoqueDisponivel -= 1;
         }

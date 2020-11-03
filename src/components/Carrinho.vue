@@ -1,9 +1,6 @@
 <template>
   <div>
     <b-container>
-      <b-row> 
-        <h1> Bem vindo a {{ title }}</h1>
-      </b-row>
       <b-row>
         <b-row class="table">
           <h2>Resumo do pedido</h2>
@@ -130,10 +127,13 @@
     /*components: {
       HelloWorld,
     }*/
+    props : {
+      carrinho : Array,
+      totalCompra: Number
+    },
     data() {
       return {
         title: "Resumo do pedido",
-        totalCompra: 0,
         fields: ['titulo', 'preço', 'quantidade'],
         pedido:{
           primeiroNome: '',
@@ -148,10 +148,33 @@
           entrega: 'Tarde'
         },
         estados: {
-          RJ: 'Rio de Janeiro',
+          AC: 'Acre',
+          AL: 'Alagoas',
+          AP: 'Amapá',
+          AM: 'Amazonas',
+          BA: 'Bahia',
+          CE: 'Ceará',
+          DF: 'Distrito Federal',
+          ES: 'Espírito Santo',
+          GO: 'Goiás',
+          MA: 'Maranhão',
+          MT: 'Mato Grosso',
+          MS: 'Mato Grosso do Sul',
           MG: 'Minas Gerais',
+          PA: 'Pará',
+          PB: 'Paraíba',
+          PR: 'Paraná',
+          PE: 'Pernambuco',
+          PI: 'Piauí',
+          RJ: 'Rio de Janeiro',
+          RN: 'Rio Grande do Norte',
+          RS: 'Rio Grande do Sul',
+          RO: 'Rondônia',
+          RR: 'Roraima',
+          SC: 'Santa Catarina',
           SP: 'São Paulo',
-          ES: 'Espírito Santo'
+          SE: 'Sergipe',
+          TO: 'Tocantins'
         }
       };
     },
@@ -173,10 +196,6 @@
 
   .row{
     justify-content: center;
-  }
-
-  p{
-    font-size: 18px;
   }
 
   .table{

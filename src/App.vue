@@ -20,7 +20,7 @@
       </b-row>
       <b-row v-show="mostrarFilmes">
          <div class="cards">
-          <b-card :key="filme.id" v-for="filme in filmes"
+          <b-card :key="filme.id" v-for="filme in filmesOrdenados"
             :title="filme.titulo"
             :img-src="filme.imagem"
             img-top
@@ -53,7 +53,7 @@
   </div>
 </template>
 
-<script>
+<>
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import Carrinho from './components/Carrinho.vue'
@@ -113,10 +113,22 @@
       quantidadeNoCarrinho: function() {
         return this.carrinho.length;
       },
+      filmesOrdenados: function() {
+        if(this.filmes.length > 0){
+          function compare(a, b){
+            if(a.titulo.toLowerCase() < b.titulo.toLowerCase())
+              return -1;
+            if(a.titulo.toLowerCase() > b.titulo.toLowerCase())
+              return 1;
+            return 0;
+          }
+          return this.filmes.sort(compare);
+        }
+      }
     }
 
   }
-</script>
+</>
 
 <style>
 
@@ -149,10 +161,6 @@
 
   .card:hover{
     transform: scale(1.05);
-  }
-
-  p{
-    font-size: 18px;
   }
 
   .table{

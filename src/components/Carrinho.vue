@@ -123,7 +123,7 @@
   import 'bootstrap-vue/dist/bootstrap-vue.css'
 
   export default {
-    name: 'App',
+    name: 'Carrinho',
     /*components: {
       HelloWorld,
     }*/

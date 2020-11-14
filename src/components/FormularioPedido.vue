@@ -1,7 +1,7 @@
 <template>
-    <b-row>
+    <b-container>
         <b-row>
-            <h3>Dados de Pagamento</h3>
+            <h3>Dados para Pagamento</h3>
         </b-row>
         <b-row class="pedido">
         <form>
@@ -107,13 +107,15 @@
         </pre>
       
         <div class="form-group">
-            <button type="submit" class="btn btn-primary" v-on:click="submitFormulario">Finalizar pedido</button>
+            <button type="submit" class="btn btn-success" v-on:click="submitFormulario">Finalizar pedido</button>
         </div>
         </b-row>
-    </b-row>
+    </b-container>
 </template>
 
 <script>
+    import 'bootstrap/dist/css/bootstrap.css'
+    import 'bootstrap-vue/dist/bootstrap-vue.css'
     export default {
         name: 'FormularioPedido',
         data() {
@@ -131,21 +133,21 @@
                     entrega: 'Tarde'
                 },
                 estados: {
-                  AC: 'Acre',
-                  AL: 'Alagoas',
-                  AP: 'Amapá',
-                  AM: 'Amazonas',
-                  BA: 'Bahia',
-                  CE: 'Ceará',
-                  DF: 'Distrito Federal',
-                  ES: 'Espírito Santo',
-                  GO: 'Goiás',
-                  MA: 'Maranhão',
-                  MT: 'Mato Grosso',
-                  MS: 'Mato Grosso do Sul',
-                  MG: 'Minas Gerais',
-                  PA: 'Pará',
-                  PB: 'Paraíba',
+                    AC: 'Acre',
+                    AL: 'Alagoas',
+                    AP: 'Amapá',
+                    AM: 'Amazonas',
+                    BA: 'Bahia',
+                    CE: 'Ceará',
+                    DF: 'Distrito Federal',
+                    ES: 'Espírito Santo',
+                    GO: 'Goiás',
+                    MA: 'Maranhão',
+                    MT: 'Mato Grosso',
+                    MS: 'Mato Grosso do Sul',
+                    MG: 'Minas Gerais',
+                    PA: 'Pará',
+                    PB: 'Paraíba',
                     PR: 'Paraná',
                     PE: 'Pernambuco',
                     PI: 'Piauí',
@@ -169,8 +171,5 @@
     }
 </script>
 
-<style scoped>
-    .row{
-        justify-content: center;
-    }
+<style>
 </style>

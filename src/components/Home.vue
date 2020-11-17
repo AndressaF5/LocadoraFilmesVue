@@ -8,7 +8,7 @@
                 <p>Carrinho: {{ quantidadeNoCarrinho}} filmes</p>
             </b-row>
             <b-row>
-                <ListarFilmes />
+                <ListarFilmes :carrinho="carrinho" />
             </b-row>
         </b-container>
     </div>
@@ -20,7 +20,7 @@
     import ListarFilmes from './ListarFilmes.vue'
 
     export default {
-        name: 'Home',
+        name: "Home",
         components: {
             ListarFilmes
         },

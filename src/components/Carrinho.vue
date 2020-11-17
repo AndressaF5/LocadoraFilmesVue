@@ -9,10 +9,7 @@
         </b-row>
       </b-row>
 
-      <b-button @click="mostrarFormulario = true">Finalizar Pedido</b-button>
-      <b-row v-show="mostrarFormulario">
-        <FormularioPedido />
-      </b-row>
+      <router-link to="/formularioPedido" tag="button">Finalizar Pedido</router-link>
   
     </b-container>
   </div>
@@ -21,12 +18,10 @@
 <script>
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
-  import FormularioPedido from '@/components/FormularioPedido.vue'
 
   export default {
     name: 'Carrinho',
     components: {
-      FormularioPedido,
     },
     props : {
       carrinho : Array,

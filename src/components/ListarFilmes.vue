@@ -47,24 +47,26 @@
                 { id: 5, titulo: "Doutor Estranho", descricao: "Magia", valor: 10, imagem: "https://i.imgur.com/pVEDruM.jpg", estoqueDisponivel: 5, avaliacao: 3 },
                 { id: 6, titulo: "Pantera Negra", descricao: "Um segundo filme de força", valor: 10, imagem: "https://i.imgur.com/JOSEGKf.jpg", estoqueDisponivel: 2, avaliacao: 4 }
             ],
-            carrinho: [],
           }
         },
         methods: {
-            adicionarAoCarrinho: function(filme) {
-                if(filme.estoqueDisponivel > 0){
-                  let indexFilme = this.carrinho.findIndex((obj) => obj.id == filme.id);
-                  filme.quantidade = (filme.quantidade || 0) + 1;
-                  if(indexFilme == -1){
-                    filme.preco = "R$"+filme.valor+",00";
-                    this.carrinho.push(filme);
-                  }else{
-                    this.carrinho.splice(indexFilme, 1, filme);
-                  }
-                  this.totalCompra += filme.valor;
-                  filme.estoqueDisponivel -= 1;
-                }
-            },
+          adicionarAoCarrinho: function(filme) {
+            if(filme.estoqueDisponivel > 0){
+              let indexFilme = this.carrinho.findIndex((obj) => obj.id == filme.id);
+              filme.quantidade = (filme.quantidade || 0) + 1;
+              if(indexFilme == -1){
+                filme.preco = "R$"+filme.valor+",00";
+                this.carrinho.push(filme);
+              }else{
+                this.carrinho.splice(indexFilme, 1, filme);
+              }
+              this.totalCompra += filme.valor;
+              filme.estoqueDisponivel -= 1;
+            }
+          },
+        },
+        props: {
+          carrinho: Array
         }
     }
 </script>

@@ -4,7 +4,7 @@
             <h3>Dados para Pagamento</h3>
         </b-row>
         <b-row class="pedido">
-        <form>
+            <form>
             <div class="form-group">
                 <label for="pedido.primeiroNome">Primeiro Nome</label>
                 <input 
@@ -94,21 +94,23 @@
                     v-model="pedido.entrega">
                 <label class="form-check-label" for="noite">Noite</label>
             </div>
-        </form>
-        <pre>
-            Primeiro nome: {{pedido.primeiroNome}}
-            Sobrenome: {{pedido.sobrenome}}
-            Endereço: {{pedido.endereco}}
-            CEP: {{pedido.cep}}
-            Estado: {{pedido.estado}}
-            Cidade: {{pedido.cidade}}
-            Pagar na entrega? {{pedido.pagarNaEntrega}}
-            Entrega: {{pedido.entrega}}
-        </pre>
-      
-        <div class="form-group">
-            <button type="submit" class="btn btn-success" v-on:click="submitFormulario">Finalizar pedido</button>
-        </div>
+
+            <pre>
+                Primeiro nome: {{pedido.primeiroNome}}
+                Sobrenome: {{pedido.sobrenome}}
+                Endereço: {{pedido.endereco}}
+                CEP: {{pedido.cep}}
+                Estado: {{pedido.estado}}
+                Cidade: {{pedido.cidade}}
+                Pagar na entrega? {{pedido.pagarNaEntrega}}
+                Entrega: {{pedido.entrega}}
+            </pre>
+        
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" v-on:click="submitFormulario">Finalizar pedido</button>
+            </div>
+            </form>
+            
         </b-row>
     </b-container>
 </template>

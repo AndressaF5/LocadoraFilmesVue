@@ -7,9 +7,6 @@
             <b-nav-item>
                 <router-link to="/carrinho">Carrinho</router-link>
             </b-nav-item>
-            <b-nav-item>
-                <router-link to="/formularioPedido;">Formulário</router-link>
-            </b-nav-item>
         </b-navbar-nav>
     </b-navbar>
 </template>

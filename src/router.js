@@ -3,6 +3,7 @@ import Home from './components/Home';
 import FormularioPedido from './components/FormularioPedido';
 import ListarFilmes from './components/ListarFilmes'
 import Carrinho from './components/Carrinho'
+import Filme from './components/Filme'
 
 export default new VueRouter({
     mode: 'history',
@@ -26,6 +27,11 @@ export default new VueRouter({
             path: '/carrinho',
             name: 'Carrinho',
             component: Carrinho
+        },
+        {
+            path: 'filme/:id',
+            name: 'filme',
+            component: Filme
         }
     ]
 });

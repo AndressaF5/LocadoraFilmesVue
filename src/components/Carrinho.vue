@@ -30,8 +30,7 @@
     data() {
       return {
         title: "Resumo do pedido",
-        fields: ['titulo', 'preco', 'quantidade'],
-        mostrarFormulario: false,
+        fields: ['titulo', 'preço', 'quantidade'],
       };
     },
 

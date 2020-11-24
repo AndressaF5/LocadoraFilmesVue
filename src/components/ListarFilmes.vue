@@ -14,7 +14,7 @@
         >
 
         <b-card-text>
-          {{ filme.descricao }}
+          <router-link tag="p" :to="{name: 'filme', params: {id: filme.id, filme: filme}}">{{ filme.descricao }}</router-link>
         </b-card-text>
 
         <b-card-text>
@@ -47,22 +47,25 @@
                 { id: 5, titulo: "Doutor Estranho", descricao: "Magia", valor: 10, imagem: "https://i.imgur.com/pVEDruM.jpg", estoqueDisponivel: 5, avaliacao: 3 },
                 { id: 6, titulo: "Pantera Negra", descricao: "Um segundo filme de força", valor: 10, imagem: "https://i.imgur.com/JOSEGKf.jpg", estoqueDisponivel: 2, avaliacao: 4 }
             ],
+            totalCompra: 0
           }
         },
         methods: {
-          adicionarAoCarrinho: function(filme) {
-            if(filme.estoqueDisponivel > 0){
-              let indexFilme = this.carrinho.findIndex((obj) => obj.id == filme.id);
+          adicionarAoCarrinho: function (filme) {
+            let carrinho_local =  this.carrinho 
+            if (filme.estoqueDisponivel > 0) {
+              let indexFilme = carrinho_local.findIndex((obj) => obj.id == filme.id);
               filme.quantidade = (filme.quantidade || 0) + 1;
-              if(indexFilme == -1){
-                filme.preco = "R$"+filme.valor+",00";
-                this.carrinho.push(filme);
-              }else{
-                this.carrinho.splice(indexFilme, 1, filme);
-              }
-              this.totalCompra += filme.valor;
-              filme.estoqueDisponivel -= 1;
+            if (indexFilme == -1) {
+              carrinho_local.push(filme);
+              this.$emit('update:carrinho', carrinho_local);
+            } else {
+              carrinho_local.splice(indexFilme, 1, filme);
+              this.$emit('update:carrinho', carrinho_local);
             }
+            this.totalCompra += filme.valor;
+            filme.estoqueDisponivel -= 1;
+        }
           },
         },
         props: {
